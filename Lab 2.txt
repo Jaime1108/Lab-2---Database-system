@@ -1,0 +1,57 @@
+-- Question 1:
+-- Sort the book by subject 
+
+SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT as Subject  -- get the book title, cost, subject 
+FROM Book -- from the book table
+ORDER BY Subject; -- sort the order by subject
+
+-- Sort the book by Cost lowest first:
+SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT as Subject  -- get the book title, cost, subject 
+
+FROM Book
+ORDER BY Cost ASC; -- sort the order by the cost with lowest first 
+
+-- Most expensive first:
+SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT as Subject  -- get the book title, cost, subject 
+
+FROM book
+ORDER BY Cost DESC; -- sort with the most expensive first
+
+-- Question 2: 
+
+SELECT PAT_FNAME as Firstname, PAT_LNAME as Lastname -- get the patron first name and last name
+FROM Patron; -- from the table patron
+
+-- Question 3: 
+
+-- Number of Years that the book was published: 
+SELECT DISTINCT BOOK_YEAR AS Publish_Year -- get book published year that are distinctive (appear only once) 
+FROM Book; -- from the book table
+
+-- How many books were published in that year? (took me a while, but I managed to do it using group by)
+
+SELECT BOOK_YEAR AS Publish_Year, COUNT(BOOK_TITLE) AS Book_count -- get the year book published and the count for published book in each year
+FROM Book -- from the book table
+GROUP BY Publish_Year; -- group the result with the year book published
+
+-- Question 4: 
+
+SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost -- get the book title and cost
+FROM Book -- from the book table 
+WHERE BOOK_COST = 59.95; -- with condition that equal 59.95
+
+-- Question 5:
+
+SELECT AU_FNAME AS Author_Firstname, AU_LNAME AS Author_Lastname  -- get author first name and last name 
+FROM Author -- from the author table
+WHERE AU_BIRTHYEAR IS NULL; -- with condition that the author birthyear is null (empty)
+
+
+-- Question 6:
+SELECT CONCAT(Author.AU_FNAME," ",Author.AU_LNAME) AS Author_fullname, -- get the author fullname using concat on author first name and last name
+Writes.AU_ID AS AuthorID, COUNT(Writes.BOOK_NUM) AS Book_Written  -- get the author ID and number of book written for that ID
+FROM Author            -- from the author table
+INNER JOIN Writes ON Writes.AU_ID = Author.AU_ID -- join the writes table and author table using author ID
+GROUP BY AuthorID; -- group the result with the author ID
+
+-- Question 7:
