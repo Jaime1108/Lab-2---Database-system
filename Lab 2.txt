@@ -55,3 +55,10 @@ INNER JOIN Writes ON Writes.AU_ID = Author.AU_ID -- join the writes table and au
 GROUP BY AuthorID; -- group the result with the author ID
 
 -- Question 7:
+
+SELECT CONCAT(Patron.PAT_FNAME," ", Patron.PAT_LNAME) AS Patron_Name, -- Combine the patron's first and last name to get fullname
+Book.BOOK_TITLE as Book_Title, -- get book title from book table
+DATEDIFF(CHECK_IN_DATE, CHECK_OUT_DATE) AS Days_Book_Kept -- calculate number of day between check out and return
+FROM Checkout  -- get checkin and checkout dates from the Checkout table
+INNER JOIN Book ON book.BOOK_NUM = Checkout.BOOK_NUM -- join Checkout with the book table using BOOK_NUM to get book title
+INNER JOIN Patron On Checkout.PAT_ID = Patron.PAT_ID; -- join Checkout with the Patron table to get Patron name
