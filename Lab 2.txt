@@ -1,25 +1,23 @@
 -- Question 1:
 -- Sort the book by subject 
 
-SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT as Subject  -- get the book title, cost, subject 
+SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT AS Subject  -- get the book title, cost, subject 
 FROM Book -- from the book table
 ORDER BY Subject; -- sort the order by subject
 
 -- Sort the book by Cost lowest first:
-SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT as Subject  -- get the book title, cost, subject 
-
+SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT AS Subject  -- get the book title, cost, subject 
 FROM Book
 ORDER BY Cost ASC; -- sort the order by the cost with lowest first 
 
 -- Most expensive first:
-SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT as Subject  -- get the book title, cost, subject 
-
+SELECT BOOK_TITLE AS Title, BOOK_COST AS Cost, BOOK_SUBJECT AS Subject  -- get the book title, cost, subject 
 FROM book
 ORDER BY Cost DESC; -- sort with the most expensive first
 
 -- Question 2: 
 
-SELECT PAT_FNAME as Firstname, PAT_LNAME as Lastname -- get the patron first name and last name
+SELECT PAT_FNAME AS Firstname, PAT_LNAME AS Lastname -- get the patron first name and last name
 FROM Patron; -- from the table patron
 
 -- Question 3: 
@@ -57,7 +55,7 @@ GROUP BY AuthorID; -- group the result with the author ID
 -- Question 7:
 
 SELECT CONCAT(Patron.PAT_FNAME," ", Patron.PAT_LNAME) AS Patron_Name, -- Combine the patron's first and last name to get fullname
-Book.BOOK_TITLE as Book_Title, -- get book title from book table
+Book.BOOK_TITLE AS Book_Title, -- get book title from book table
 DATEDIFF(CHECK_IN_DATE, CHECK_OUT_DATE) AS Days_Book_Kept -- calculate number of day between check out and return
 FROM Checkout  -- get checkin and checkout dates from the Checkout table
 INNER JOIN Book ON book.BOOK_NUM = Checkout.BOOK_NUM -- join Checkout with the book table using BOOK_NUM to get book title
@@ -65,15 +63,16 @@ INNER JOIN Patron On Checkout.PAT_ID = Patron.PAT_ID; -- join Checkout with the 
 
 -- Question 8:
 
-SELECT CONCAT(Author.AU_FNAME," ", Author.AU_LNAME) as Author_Name, BOOK_TITLE as Book_Title ,BOOK_SUBJECT as Subject -- get the author name using concat, get the book subject and the book title
+SELECT CONCAT(Author.AU_FNAME," ", Author.AU_LNAME) AS Author_Name, BOOK_TITLE AS Book_Title, BOOK_SUBJECT AS Subject -- get the author name using concat, get the book subject and the book title
 FROM Book -- get information from the book table
 INNER JOIN Writes ON Writes.BOOK_NUM = Book.BOOK_NUM -- join the book table with the writes table using book_num
-INNER JOIN Author ON Writes.AU_ID = Author.AU_ID -- join the write table with the author table using author id number
+INNER JOIN Author ON Writes.AU_ID = Author.AU_ID -- join the writes table with the author table using author id number
 ORDER BY Subject; -- sort by subject
+
 
 -- Question 9:
 
-SELECT CONCAT(Patron.PAT_FNAME," ", Patron.PAT_LNAME) as Patron_name, Book.BOOK_TITLE AS Book_Title -- get the patron's name, book title
+SELECT CONCAT(Patron.PAT_FNAME," ", Patron.PAT_LNAME) AS Patron_name, Book.BOOK_TITLE AS Book_Title -- get the patron's name, book title
 FROM Checkout 
 INNER JOIN Patron ON Checkout.PAT_ID = Patron.PAT_ID -- connect the patron_id from checkout table and patron table using INNER JOIN
 INNER JOIN Book ON Checkout.BOOK_NUM = Book.BOOK_NUM -- display the book title using join to connect
@@ -88,6 +87,8 @@ GROUP BY Checkout.BOOK_NUM  -- count checkout for each book using group by book_
 ORDER BY Number_checkout DESC, Book_title ASC; -- sort by the number of checkout first, then sort by book title letter
 
 -- Question 11:
+-- Find the author for the most borrowed book and display the author's name, age, book number, title, subject, and number of checkouts, then sort by number of checkouts to further analyze the reader research trends (which book attracts most patrons and how if the author age (YoE) is also a factor).
+-- (This one really take a while)
 
 SELECT CONCAT(Author.AU_FNAME, " ", Author.AU_LNAME) AS Author_Fullname, -- get author fullname
 	Author.AU_BIRTHYEAR AS BirthYear, -- get author first year
@@ -100,6 +101,4 @@ INNER JOIN Writes ON Writes.BOOK_NUM = Book.BOOK_NUM -- join the write table and
 INNER JOIN Author ON Author.AU_ID = Writes.AU_ID -- join the author table and link the author ID from the writes table
 GROUP BY Checkout.BOOK_NUM, Author_Fullname, BirthYear, Book_title, Subject  -- group result by book number, author name, birthyear of that author, book subject and title 
 ORDER BY Number_checkout DESC, Author_Fullname ASC, Book_title ASC; -- sort by the number of checkout first, then sort by author name with alphabet order, and then book title letter
-
-
 
