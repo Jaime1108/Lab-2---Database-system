@@ -62,3 +62,30 @@ DATEDIFF(CHECK_IN_DATE, CHECK_OUT_DATE) AS Days_Book_Kept -- calculate number of
 FROM Checkout  -- get checkin and checkout dates from the Checkout table
 INNER JOIN Book ON book.BOOK_NUM = Checkout.BOOK_NUM -- join Checkout with the book table using BOOK_NUM to get book title
 INNER JOIN Patron On Checkout.PAT_ID = Patron.PAT_ID; -- join Checkout with the Patron table to get Patron name
+
+-- Question 8:
+
+SELECT CONCAT(Author.AU_FNAME," ", Author.AU_LNAME) as Author_Name, BOOK_TITLE as Book_Title ,BOOK_SUBJECT as Subject -- get the author name using concat, get the book subject and the book title
+FROM Book -- get information from the book table
+INNER JOIN Writes ON Writes.BOOK_NUM = Book.BOOK_NUM -- join the book table with the writes table using book_num
+INNER JOIN Author ON Writes.AU_ID = Author.AU_ID -- join the write table with the author table using author id number
+ORDER BY Subject; -- sort by subject
+
+-- Question 9:
+
+SELECT CONCAT(Patron.PAT_FNAME," ", Patron.PAT_LNAME) as Patron_name, Book.BOOK_TITLE AS Book_Title -- get the patron's name, book title
+FROM Checkout 
+INNER JOIN Patron ON Checkout.PAT_ID = Patron.PAT_ID -- connect the patron_id from checkout table and patron table using INNER JOIN
+INNER JOIN Book ON Checkout.BOOK_NUM = Book.BOOK_NUM -- display the book title using join to connect
+Where Checkout.CHECK_IN_DATE is Null; -- if check_in_date is null, then the book is still currently checkout
+
+-- Question 10:
+
+SELECT Book.BOOK_TITLE as Book_Title, Count(checkout.BOOK_NUM) as number_checkout  -- get the book title and number of checkout of those book
+FROM Checkout
+INNER JOIN Book ON Book.BOOK_NUM = Checkout.BOOK_NUM -- join the book table with the checkout table using book_num
+GROUP BY Checkout.BOOK_NUM  -- count checkout for each book using group by book_num
+ORDER BY Number_checkout DESC, Book_title ASC; -- sort by the number of checkout first, then sort by book title letter
+
+
+
