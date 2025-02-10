@@ -80,7 +80,7 @@ SELECT CONCAT(PATRON.PAT_FNAME," ", PATRON.PAT_LNAME) AS Patron_name, BOOK.BOOK_
 FROM CHECKOUT
 INNER JOIN PATRON ON CHECKOUT.PAT_ID = PATRON.PAT_ID -- connect the patron_id from checkout table and patron table using INNER JOIN
 INNER JOIN BOOK ON CHECKOUT.BOOK_NUM = BOOK.BOOK_NUM -- display the book title using join to connect
-Where CHECKOUT.CHECK_IN_DATE is Null; -- if check_in_date is null, then the book is still currently checkout
+WHERE CHECKOUT.CHECK_IN_DATE IS NULL; -- if check_in_date is null, then the book is still currently checkout
 
 
 /* Question 10: Which books are most popular? Create a query that displays the book number, the book title, and the number of times each book has been checked out. Arrange the books in order from the most checkouts to the fewest checkouts. For books with the same number of checkouts, arrange alphabetically.
